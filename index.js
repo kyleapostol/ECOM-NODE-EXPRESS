@@ -2,8 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 
 import usersRoutes from './routes/users.js';
+import { dbConnect} from './database/db.js';
 
-const dbConnect = require('./database/db.js');
 dbConnect();
 
 const app = express();
