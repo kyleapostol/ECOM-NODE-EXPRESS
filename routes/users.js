@@ -1,4 +1,6 @@
 import express from 'express';
+import { client } from '../database/db.js';
+
 
 const router = express.Router();
 
@@ -22,10 +24,22 @@ const users = [
 ]
 
 
-router.get('/', (req, res) => {
-    res.send(users)
-})
 
+
+router.get('/', (req, res) => {
+    const database = client.db('shoe-ecom');
+    const cart = database.collection("cart");
+    //cursors are like pointers to the entries
+    const cursor = cart.find();
+    cursor.toArray()
+    .then(item => res.send(item))
+
+
+    // cursor.forEach( item => arr.push(item));
+
+    // res.send(arr)
+})
+ 
 
 router.post('/', (req, res) => {
     const user = req.body;

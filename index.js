@@ -2,10 +2,10 @@ import express from 'express';
 import bodyParser from 'body-parser';
 
 import usersRoutes from './routes/users.js';
-import { dbConnect} from './database/db.js';
+import { dbConnect } from './database/db.js';
 
 dbConnect();
-
+console.log("this ran")
 const app = express();
 
 app.use(bodyParser.json());
