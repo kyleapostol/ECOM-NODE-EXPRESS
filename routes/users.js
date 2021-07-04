@@ -1,45 +1,36 @@
 import express from 'express';
 import { client } from '../database/db.js';
 
-
 const router = express.Router();
-
-const users = [
-    {
-        firstName : 'John',
-        lastName : 'Doe',
-        age : 26
-    },
-    {
-        firstName : 'Jane',
-        lastName : 'Doe',
-        age : 27
-    },
-    {
-        firstName : 'Jack',
-        lastName : 'Doe',
-        age : 28
-    },
-
-]
-
-
 
 
 router.get('/', (req, res) => {
+
     const database = client.db('shoe-ecom');
-    const cart = database.collection("cart");
+    const cartCollection = database.collection("cart");
+
     //cursors are like pointers to the entries
-    const cursor = cart.find();
+    const cursor = cartCollection.find();
     cursor.toArray()
     .then(item => res.send(item))
+    .catch(console.dir)
+    // .finally(() => client.close())
 
-
-    // cursor.forEach( item => arr.push(item));
-
-    // res.send(arr)
 })
  
+router.get('/:userName', (req, res) => {
+    const database = client.db('shoe-ecom');
+    const cartCollection = database.collection("cart");
+
+    const query = { name : req.params.userName };
+
+    cartCollection.findOne(query)
+    .then(result => {res.send(result); console.log("res",result)})
+    .catch(err => console.log(err))
+    // .finally(() => client.close());
+
+})
+
 
 router.post('/', (req, res) => {
     const user = req.body;
